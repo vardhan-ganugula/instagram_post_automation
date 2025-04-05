@@ -26,6 +26,15 @@ app.set
 app.use('/output',express.static("output"));
 app.use('/images',express.static("images"));
 
+(async function () {
+  console.log("Starting ngrok...");
+  const listener = await ngrok.forward( {
+    addr: process.env.PORT || 3000,
+    authtoken: process.env.NGROK_AUTH_TOKEN,
+  })
+  NGROKPATH=listener.url();
+  console.log("ngrok url: ", listener.url());
+})()
 
 const job = new CronJob(
 	'0 14,17,7 * * *', 
@@ -37,15 +46,7 @@ const job = new CronJob(
 	'UTC+5:30'
 );
 
-(async function () {
-  console.log("Starting ngrok...");
-  const listener = await ngrok.forward( {
-    addr: process.env.PORT || 3000,
-    authtoken: process.env.NGROK_AUTH_TOKEN,
-  })
-  NGROKPATH=listener.url();
-  console.log("ngrok url: ", listener.url());
-})()
+
 
 app.get("/", (req, res) => {
   res.send('autogen API is running!');
