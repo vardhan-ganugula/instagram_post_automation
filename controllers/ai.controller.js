@@ -2,6 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs";
 import { createCanvas, loadImage, registerFont } from "canvas";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GOOGLE_API_KEY,
@@ -34,7 +36,7 @@ async function generateImage({ prompt, fileName }) {
 }
 
 async function addText({ fileName, quote }) {
-  const fontPath = path.join(process.cwd(), "fonts", "Dancing.ttf");
+  const fontPath = path.join(process.cwd(), "fonts", "roboto.ttf");
 
   registerFont(fontPath, { family: "MyFont" });
 
@@ -99,7 +101,7 @@ const generatePostDetails = async () => {
   Generate a JSON object with the following fields:
   
   1. "motivationalLine": Create a motivational phrase focusing on overcoming challenges. (can include \\n for formatting).
-  2. "imagePrompt": A {Cinematic / Ghilbi / Minimalist / Black & White (High Contrast)} image description (512x512) that visually represents the motivationalLine. The image must be deep, emotional, and high in contrast, with no text inside.
+  2. "imagePrompt": A { Cinematic / Ghilbi / Minimalist / Black & White (High Contrast)} image description (512x512) that visually represents the motivationalLine. The image must be deep, emotional, and high in contrast, with no text inside.
   3. "instagramTitle": A catchy and short Instagram title for the post.
   4. "instagramDescription": A creative, inspiring caption that elaborates on the motivationalLine and ends with 5 relevant hashtags.
   5. "tags": An array of 5 appropriate hashtags used in the description.

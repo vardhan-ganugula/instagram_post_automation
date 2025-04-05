@@ -4,7 +4,8 @@ import express from "express";
 import ngrok from '@ngrok/ngrok'
 import {generateInstagramPost} from "./controllers/posts.controller.js";
 import { CronJob } from 'cron';
-
+import dotenv from "dotenv";
+dotenv.config();
 
 if (!fs.existsSync("./output")) {
   fs.mkdirSync("./output");
@@ -53,7 +54,7 @@ app.get("/", (req, res) => {
 })
 
 app.get('/generate', async (req, res) => {
-  const filePath = await generateInstagramPost(NGROKPATH)
+  const filePath = await generateInstagramPost(NGROKPATH);
 
   res.send(`
     Post generated! <br> <a href="${process.env.APP_URL||NGROKPATH}/${filePath}">Click here to view the image</a> ${NGROKPATH}/${filePath}`);
